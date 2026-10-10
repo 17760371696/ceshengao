@@ -10662,7 +10662,7 @@ function render() {
     '<a class="alink" href="https://api.t1qq.com/user/key" target="_blank" title="注册后在密钥管理页免费申请">免费申请密钥 →</a>' +
     '</div>' +
     '<div class="q-row">' +
-    '<input type="text" class="mono" id="q-code" placeholder="好友码，如 1234-5678" value="' + escapeHtml(heightCode) + '" maxlength="9" inputmode="numeric">' +
+    '<input type="text" class="mono" id="q-code" placeholder="好友码，如 1234-5678 或 ABCD-1234" value="' + escapeHtml(heightCode) + '" maxlength="12">' +
     '<button class="btn btn-primary" id="q-btn" onclick="queryByCode()">🔍 查询身高</button>' +
     '<button class="btn btn-outline" onclick="copyQCode()">📋 复制</button>' +
     '</div>' +
@@ -10745,12 +10745,12 @@ function render() {
     if (el) { el.style.display = 'none'; el.className = 'q-status'; }
   });
 
-  // 好友码输入：自动加横杠格式化
+  // 好友码输入：允许数字和字母，自动加横杠格式化（XXXX-XXXX）
   var codeInput = document.getElementById('q-code');
   if (codeInput) {
     codeInput.addEventListener('input', function() {
-      var digits = this.value.replace(/\D/g, '').slice(0, 8);
-      this.value = digits.length > 4 ? digits.slice(0, 4) + '-' + digits.slice(4) : digits;
+      var chars = this.value.replace(/[^0-9A-Za-z]/g, '').slice(0, 8);
+      this.value = chars.length > 4 ? chars.slice(0, 4) + '-' + chars.slice(4) : chars;
     });
   }
   // 密钥输入即时保存
@@ -10802,7 +10802,7 @@ function openHeightModal(idx, prefill) {
     '<div class="field"><label>备注名</label>' +
     '<input type="text" id="hr-name" value="' + escapeHtml(r.name) + '" placeholder="如：大号 / 小号 / 某某" autofocus></div>' +
     '<div class="field"><label>好友码（选填）</label>' +
-    '<input type="text" id="hr-code" value="' + escapeHtml(r.code || '') + '" placeholder="XXXX-XXXX" maxlength="9" inputmode="numeric">' +
+    '<input type="text" id="hr-code" value="' + escapeHtml(r.code || '') + '" placeholder="XXXX-XXXX，可含字母" maxlength="12">' +
     '<div class="modal-hint">游戏内 设置 → 好友 → 使用编号</div></div>' +
     '<div class="field"><label>查询日期</label>' +
     '<input type="date" id="hr-date" value="' + escapeHtml(r.date || '') + '"></div>' +
